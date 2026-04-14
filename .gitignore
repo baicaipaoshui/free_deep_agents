@@ -223,3 +223,9 @@ libs/cli/TEXTUAL_PROGRESS.md
 */tmp/.DS_Store
 
 CLAUDE.md
+
+# IAV FuSa app
+apps/iav-fusa-platform/frontend/.next/
+apps/iav-fusa-platform/frontend/node_modules/
+apps/iav-fusa-platform/frontend/tsconfig.tsbuildinfo
+apps/iav-fusa-platform/backend/projects/
