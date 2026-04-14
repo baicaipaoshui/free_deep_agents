@@ -41,7 +41,6 @@ from app.models.schemas import (
     AnalysisResponse,
     AnalysisStatus,
 )
-from app.router.intent import route_request
 
 logger = logging.getLogger(__name__)
 
@@ -307,12 +306,18 @@ async def _run_analysis(session_id: str, session: dict[str, Any],
         agent = get_orchestrator()
 
         if user_text is None:
-            # First turn: build structured prompt
-            route = route_request(session["input_text"])
-            prompt = (
-                f"请执行 {route['analysis_type'].upper()} 分析。\n\n"
-                f"分析对象：{session['input_text']}"
-            )
+            # First turn: let orchestrator LLM decide which subagent to call.
+            # If the user explicitly selected an analysis type in the UI, hint the
+            # orchestrator so it skips self-classification and routes directly.
+            analysis_type = session.get("analysis_type", "")
+            if analysis_type and analysis_type != "full":
+                prompt = (
+                    f"用户指定执行 {analysis_type.upper()} 分析。\n\n"
+                    f"{session['input_text']}"
+                )
+            else:
+                # No explicit type — orchestrator LLM infers from user input
+                prompt = session["input_text"]
         else:
             # Follow-up turn: user's reply text
             prompt = user_text

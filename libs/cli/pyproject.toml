@@ -155,17 +155,11 @@ packages = ["deepagents_cli"]
 
 [tool.uv.sources]
 deepagents = { path = "../deepagents", editable = true }
-langchain-daytona = { path = "../partners/daytona", editable = true }
-langchain-modal = { path = "../partners/modal", editable = true }
-langchain-runloop = { path = "../partners/runloop", editable = true }
 
 [tool.ty.environment]
 python-version = "3.11"
 extra-paths = [
     "../deepagents",
-    "../partners/daytona",
-    "../partners/modal",
-    "../partners/runloop",
 ]
 
 [tool.ty.rules]

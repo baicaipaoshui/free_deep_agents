@@ -1,9 +1,8 @@
 MAKEFILE_DIR := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
-PACKAGE_DIRS := $(sort $(patsubst %/,%,$(dir $(patsubst $(MAKEFILE_DIR)%,%,$(wildcard $(MAKEFILE_DIR)*/Makefile $(MAKEFILE_DIR)partners/*/Makefile)))))
+PACKAGE_DIRS := $(sort $(patsubst %/,%,$(dir $(patsubst $(MAKEFILE_DIR)%,%,$(wildcard $(MAKEFILE_DIR)*/Makefile)))))
 
-# Map package dirs to their required Python version
-# acp requires 3.14, everything else uses 3.12
-python_version = $(if $(filter acp,$1),3.14,3.12)
+# All retained packages use Python 3.12 for lockfile operations.
+python_version = 3.12
 
 .PHONY: help lock lock-bump lock-check lint format
 
